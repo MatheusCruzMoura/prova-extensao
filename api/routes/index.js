@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const usuariossRoutes = require('./usuarios.js');
+
 // GET base
 router.get('/', (req, res) => {
     res.send('A API node está rodando ' + 'neste servidor')
@@ -12,5 +14,7 @@ router.get('/node', (req, res) => {
     res.send('Aplicação rodando no node v16.18.1')
     res.end()
 })
+
+router.use(usuariossRoutes);
 
 module.exports = router;
