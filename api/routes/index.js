@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const usuariossRoutes = require('./usuarios.js');
+const usuariosRoutes = require('./usuarios.js');
+const produtosRoutes = require('./produtos.js')
 
 // GET base
 router.get('/', (req, res) => {
@@ -15,6 +16,7 @@ router.get('/node', (req, res) => {
     res.end()
 })
 
-router.use(usuariossRoutes);
+router.use(usuariosRoutes);
+router.use(produtosRoutes);
 
 module.exports = router;
