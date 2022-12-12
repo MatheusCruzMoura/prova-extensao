@@ -1,20 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Fragment } from 'react';
+import { StyleSheet, StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import Index from './screens';
+import Home from './screens/home';
+import CadastroUsuario from './screens/cadastroUsuario';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Fragment>
+      <StatusBar style="auto" translucent backgroundColor="transparent" />
+
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Index" component={Index} />
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} />
+          {/* <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} />
+          <Stack.Screen name="ListaContatos" component={ListaContatos} />
+          <Stack.Screen name="CadastroContato" component={CadastroContato} /> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Fragment>
+    // <View style={styles.container}>
+    //   <Text>Open up App.js to start working on your app!</Text>
+    //   <StatusBar style="auto" />
+    // </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
