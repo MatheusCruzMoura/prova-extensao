@@ -3,6 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { Header, Button, Icon, Input } from "react-native-elements";
 import axios from 'axios';
 
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+
 import { API_HOST } from '@env';
 const API_URL = `http://${API_HOST}/produtos/`
 
@@ -23,7 +25,18 @@ export default function CadastroProduto({ route, navigation }) {
             capacidade: getCapacidade,
             preco: getPreco
         }).then(function (response) {
-            navigation.navigate('Home')
+            if (response.data.affectedRows) {
+                showMessage({
+                    message: "Daso cadastrados com sucesso!",
+                    type: "success",
+                });
+                navigation.navigate('Home')
+            } else {
+                showMessage({
+                    message: "Daso não cadastrados!",
+                    type: "danger",
+                });
+            }
         }).catch(function (error) {
             console.log(error);
         });
@@ -36,7 +49,19 @@ export default function CadastroProduto({ route, navigation }) {
             capacidade: getCapacidade,
             preco: getPreco
         }).then(function (response) {
-            navigation.navigate('Home')
+            if (response.data.affectedRows) {
+                showMessage({
+                    message: "Daso alterados com sucesso!",
+                    type: "success",
+                });
+                navigation.navigate('Home')
+            } else {
+                showMessage({
+                    message: "Daso não alterados!",
+                    type: "danger",
+                });
+            }
+
         }).catch(function (error) {
             console.log(error);
         });
@@ -45,7 +70,18 @@ export default function CadastroProduto({ route, navigation }) {
     function excluirDados() {
         axios.delete(API_URL + getId)
             .then(function (response) {
-                navigation.navigate('Home')
+                if (response.data.affectedRows) {
+                    showMessage({
+                        message: "Daso removidos com sucesso!",
+                        type: "success",
+                    });
+                    navigation.navigate('Home')
+                } else {
+                    showMessage({
+                        message: "Daso não removidos!",
+                        type: "danger",
+                    });
+                }
             }).catch(function (error) {
                 console.log(error);
             });
@@ -74,6 +110,7 @@ export default function CadastroProduto({ route, navigation }) {
 
     return (
         <Fragment>
+            <FlashMessage position='top' hideStatusBar={true} />
             <View style={styles.container}>
                 <Header
                     backgroundColor='#333B78'

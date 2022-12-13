@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Header, Button, Icon, Input } from "react-native-elements";
 import axios from 'axios';
 
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+
 import { API_HOST } from '@env';
 const API_URL = `http://${API_HOST}/usuarios`
 
@@ -81,13 +83,13 @@ export default function CadastroUsuario({ navigation }) {
     }
 
     async function salvar() {
-        if (getNome == undefined) {
+        if (getNome == '') {
             setErroInputNuloNome(1)
-        } else if (getLogin == undefined) {
+        } else if (getLogin == '') {
             setErroInputNuloLogin(1)
-        } else if (getSenha == undefined) {
+        } else if (getSenha == '') {
             setErroInputNuloSenha(1)
-        } else if (getSenhaRepetida == undefined) {
+        } else if (getSenhaRepetida == '') {
             setErroSenhasDiferentes(1)
             setErroInputSenhaRepetida('Campo obrigatório!')
         } else if (getSenha == getSenhaRepetida) {
@@ -96,7 +98,19 @@ export default function CadastroUsuario({ navigation }) {
                 login: getLogin,
                 senha: getSenha
             }).then(function (response) {
-                navigation.navigate('Index')
+                if (response.data.code) {
+                    showMessage({
+                        message: "Usuário já cadastrado!",
+                        type: "danger",
+                    });
+                    navigation.navigate('Index')
+                } else {
+                    showMessage({
+                        message: "Usuário cadastrado com sucesso!",
+                        type: "success",
+                    });
+                    navigation.navigate('Index')
+                }
             }).catch(function (error) {
                 console.log(error);
             });
@@ -116,6 +130,7 @@ export default function CadastroUsuario({ navigation }) {
     return (
         <Fragment>
             <View style={styles.container}>
+                <FlashMessage position='top' hideStatusBar={true} animationDuration={100} />
                 <Header
                     backgroundColor='#333B78'
                     containerStyle={styles.header}

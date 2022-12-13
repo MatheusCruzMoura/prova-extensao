@@ -3,6 +3,8 @@ import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import { Avatar, Input, Button, Icon } from "react-native-elements";
 import axios from 'axios';
 
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+
 import { API_HOST } from '@env';
 const API_URL = `http://${API_HOST}/usuarios/login`
 
@@ -27,18 +29,31 @@ export default function Index({ navigation }) {
     }
 
     async function login() {
-        if (getLogin != undefined && getSenha != undefined) {
+        if (getLogin != '' && getSenha != '') {
             await axios.post(API_URL, {
                 login: getLogin,
                 senha: getSenha
             }).then(function (response) {
                 setLogin('')
                 setSenha('')
-                if (response.data.token != undefined) {
+                if (response.data.token != undefined) {showMessage({
+                    message: "Usuário autenticado com sucesso!",
+                    type: "success",
+                });
                     navigation.navigate('Home', { token: response.data.token })
+                } else {
+                    showMessage({
+                        message: "Login ou senha inálidos!",
+                        type: "danger",
+                    });
                 }
             }).catch(function (error) {
                 console.log(error);
+            });
+        } else {
+            showMessage({
+                message: "Login ou senha inálidos!",
+                type: "danger",
             });
         }
     }
@@ -51,6 +66,7 @@ export default function Index({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <FlashMessage position='top' hideStatusBar={true} animationDuration={100} />
             <Avatar
                 size="xlarge"
                 rounded
