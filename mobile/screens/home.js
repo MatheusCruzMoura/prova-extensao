@@ -3,6 +3,8 @@ import { StyleSheet, View, ScrollView, TouchableOpacity, FlatList } from 'react-
 import { Header, Button, Icon, Text, Card } from "react-native-elements";
 import axios from 'axios';
 
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+
 import { API_HOST } from '@env';
 const API_URL_PRODUTOS = `http://${API_HOST}/produtos`
 const API_URL_AUTH = `http://${API_HOST}/usuarios/auth`
@@ -25,6 +27,10 @@ export default function Home({ route, navigation }) {
             }
         }).then(function (response) {
             if (response.data.erro) {
+                showMessage({
+                    message: "Token de autenticção expirado!",
+                    type: "danger",
+                });
                 navigation.navigate('Index')
             }
         }).catch(error => console.log(error));
