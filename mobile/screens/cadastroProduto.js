@@ -11,8 +11,8 @@ export default function CadastroProduto({ route, navigation }) {
     const [getId, setId] = useState();
     const [getNome, setNome] = useState('');
     const [getImagem, setImagem] = useState('');
-    const [getCapacidade, setCapacidade] = useState();
-    const [getPreco, setPreco] = useState();
+    const [getCapacidade, setCapacidade] = useState('');
+    const [getPreco, setPreco] = useState('');
     const [getAcao, setAcao] = useState();
     const [getExiste, setExiste] = useState();
 
@@ -65,8 +65,8 @@ export default function CadastroProduto({ route, navigation }) {
             setId(id);
             setNome(nome);
             setImagem(imagem);
-            setCapacidade(capacidade);
-            setPreco(preco);
+            setCapacidade(`${capacidade}`);
+            setPreco(`${preco}`);
             setAcao('Editar Produto');
             setExiste(true)
         }
@@ -76,7 +76,7 @@ export default function CadastroProduto({ route, navigation }) {
         <Fragment>
             <View style={styles.container}>
                 <Header
-                    backgroundColor='#222a34'
+                    backgroundColor='#333B78'
                     containerStyle={styles.header}
                     leftComponent={
                         <Button
@@ -105,7 +105,7 @@ export default function CadastroProduto({ route, navigation }) {
                     placeholder="Nome"
                     onChangeText={(value) => setNome(value)}
                     value={getNome}
-                    leftIcon={{ type: 'font-awesome', name: 'user' }}
+                    leftIcon={{ type: 'font-awesome', name: 'mobile' }}
                     containerStyle={[styles.inputs, { paddingTop: 50 }]}
                     inputContainerStyle={styles.inputContainer}
                     style={styles.input}
@@ -115,28 +115,28 @@ export default function CadastroProduto({ route, navigation }) {
                     placeholder="Imagem"
                     onChangeText={(value) => setImagem(value)}
                     value={getImagem}
-                    leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+                    leftIcon={{ type: 'font-awesome', name: 'image' }}
                     containerStyle={styles.inputs}
                     inputContainerStyle={styles.inputContainer}
                     style={styles.input}
-                    keyboardType='url'
                 />
 
                 <Input
-                    placeholder="Nome"
+                    placeholder="Capacidade"
                     onChangeText={(value) => setCapacidade(value)}
                     value={getCapacidade}
-                    leftIcon={{ type: 'font-awesome', name: 'user' }}
+                    leftIcon={{ type: 'font-awesome', name: 'database' }}
                     containerStyle={styles.inputs}
                     inputContainerStyle={styles.inputContainer}
                     style={styles.input}
+                    keyboardType='numeric'
                 />
 
                 <Input
                     placeholder="Preço"
                     onChangeText={(value) => setPreco(value)}
                     value={getPreco}
-                    leftIcon={{ type: 'font-awesome', name: 'phone' }}
+                    leftIcon={{ type: 'font-awesome', name: 'dollar' }}
                     containerStyle={styles.inputs}
                     inputContainerStyle={styles.inputContainer}
                     style={styles.input}
