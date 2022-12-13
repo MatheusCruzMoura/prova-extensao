@@ -4,7 +4,7 @@ import { Header, Button, Icon, Input } from "react-native-elements";
 import axios from 'axios';
 
 import { API_HOST } from '@env';
-const API_URL = `http://${API_HOST}/`
+const API_URL = `http://${API_HOST}/usuarios`
 
 export default function CadastroUsuario({ navigation }) {
 
@@ -91,15 +91,15 @@ export default function CadastroUsuario({ navigation }) {
             setErroSenhasDiferentes(1)
             setErroInputSenhaRepetida('Campo obrigatório!')
         } else if (getSenha == getSenhaRepetida) {
-            // await axios.post(API_URL, {
-            //     nome: getNome,
-            //     login: getLogin,
-            //     senha: getSenha
-            // }).then(function (response) {
-            //     navigation.navigate('Index')
-            // }).catch(function (error) {
-            //     console.log(error);
-            // });
+            await axios.post(API_URL, {
+                nome: getNome,
+                login: getLogin,
+                senha: getSenha
+            }).then(function (response) {
+                navigation.navigate('Index')
+            }).catch(function (error) {
+                console.log(error);
+            });
         }
     }
 
@@ -223,7 +223,7 @@ export default function CadastroUsuario({ navigation }) {
                     title="Cadastrar-se"
                     buttonStyle={[styles.button, { backgroundColor: '#1D99FA' }]}
                     containerStyle={{ marginTop: 30 }}
-                    onPress={() => navigation.navigate('Index')}
+                    onPress={() => salvar()}
                 />
 
             </View>

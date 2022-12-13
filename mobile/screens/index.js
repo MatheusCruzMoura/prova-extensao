@@ -4,7 +4,7 @@ import { Avatar, Input, Button, Icon } from "react-native-elements";
 import axios from 'axios';
 
 import { API_HOST } from '@env';
-const API_URL = `http://${API_HOST}/`
+const API_URL = `http://${API_HOST}/usuarios/login`
 
 export default function Index({ navigation }) {
 
@@ -23,6 +23,23 @@ export default function Index({ navigation }) {
             setVisivel(true)
             setEye('eye-slash')
             setLock('lock')
+        }
+    }
+
+    async function login() {
+        if (getLogin != undefined && getSenha != undefined) {
+            await axios.post(API_URL, {
+                login: getLogin,
+                senha: getSenha
+            }).then(function (response) {
+                setLogin('')
+                setSenha('')
+                if (response.data.token != undefined) {
+                    navigation.navigate('Home', { token: response.data.token })
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
         }
     }
 
@@ -80,7 +97,7 @@ export default function Index({ navigation }) {
                 title="Entrar"
                 buttonStyle={[styles.button, { backgroundColor: '#1D99FA' }]}
                 containerStyle={{ marginTop: 30 }}
-                onPress={() => navigation.navigate('Home')}
+                onPress={() => login()}
             />
 
             <Button
