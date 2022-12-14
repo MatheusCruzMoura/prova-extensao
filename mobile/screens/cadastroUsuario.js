@@ -6,7 +6,6 @@ import axios from 'axios';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
 
 import { API_HOST } from '@env';
-const API_URL = `http://${API_HOST}/usuarios`
 
 export default function CadastroUsuario({ navigation }) {
 
@@ -93,7 +92,7 @@ export default function CadastroUsuario({ navigation }) {
             setErroSenhasDiferentes(1)
             setErroInputSenhaRepetida('Campo obrigatório!')
         } else if (getSenha == getSenhaRepetida) {
-            await axios.post(API_URL, {
+            await axios.post(`http://${API_HOST}/usuarios`, {
                 nome: getNome,
                 login: getLogin,
                 senha: getSenha
