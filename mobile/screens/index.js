@@ -6,7 +6,6 @@ import axios from 'axios';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
 
 import { API_HOST } from '@env';
-const API_URL = `http://${API_HOST}/usuarios/login`
 
 export default function Index({ navigation }) {
 
@@ -30,16 +29,13 @@ export default function Index({ navigation }) {
 
     async function login() {
         if (getLogin != '' && getSenha != '') {
-            await axios.post(API_URL, {
+            await axios.post(`http://${API_HOST}/usuarios/login`, {
                 login: getLogin,
                 senha: getSenha
             }).then(function (response) {
                 setLogin('')
                 setSenha('')
-                if (response.data.token != undefined) {showMessage({
-                    message: "Usuário autenticado com sucesso!",
-                    type: "success",
-                });
+                if (response.data.token != undefined) {
                     navigation.navigate('Home', { token: response.data.token })
                 } else {
                     showMessage({
@@ -66,7 +62,7 @@ export default function Index({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <FlashMessage position='top' hideStatusBar={true} animationDuration={100} />
+            <FlashMessage position='top' style={{ paddingTop: 40, alignItems: 'center', justifyContent: 'center' }} animationDuration={100} />
             <Avatar
                 size="xlarge"
                 rounded

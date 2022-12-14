@@ -1,27 +1,21 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
 import { Header, Button, Icon, Text, Card } from "react-native-elements";
 import axios from 'axios';
+import { useIsFocused } from '@react-navigation/native';
 
 import FlashMessage, { showMessage } from 'react-native-flash-message';
 
 import { API_HOST } from '@env';
-const API_URL_PRODUTOS = `http://${API_HOST}/produtos`
-const API_URL_AUTH = `http://${API_HOST}/usuarios/auth`
-
-const Item = ({ title }) => (
-    <View style={styles.item}>
-        <Text style={styles.title}>{title}</Text>
-    </View>
-);
 
 export default function Home({ route, navigation }) {
 
     const [getToken, setToken] = useState();
     const [getData, setData] = useState([]);
+    const refresh = useIsFocused();
 
     async function validarToken(token) {
-        await axios.get(API_URL_AUTH, {
+        await axios.get(`http://${API_HOST}/usuarios/auth`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -47,11 +41,11 @@ export default function Home({ route, navigation }) {
         }
 
         async function resgatarDados() {
-            const result = await axios(API_URL_PRODUTOS)
+            const result = await axios(`http://${API_HOST}/produtos`)
             setData(result.data);
         }
         resgatarDados();
-    })
+    }, [refresh])
 
     const keyExtractor = (item, index) => index.toString()
 
@@ -62,7 +56,7 @@ export default function Home({ route, navigation }) {
         >
             <Card containerStyle={{ padding: 0, borderRadius: 20, overflow: 'hidden' }}>
                 <Card.Image
-                    source={{ uri: item.imagem }}
+                    source={{ uri: `${item.imagem}` }}
                     style={{ width: 300, height: 200, resizeMode: 'contain', borderBottomWidth: 1, borderColor: 'rgba(0, 0, 0, 0.2)' }}
                 >
                 </Card.Image>
@@ -78,6 +72,7 @@ export default function Home({ route, navigation }) {
     return (
         <Fragment>
             <View style={styles.container}>
+            <FlashMessage position="center"></FlashMessage>
                 <Header
                     backgroundColor='#333B78'
                     containerStyle={styles.header}
